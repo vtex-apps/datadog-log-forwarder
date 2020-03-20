@@ -1,0 +1,68 @@
+{
+  "name": "datadog-log-forwarder",
+  "vendor": "vtex",
+  "version": "0.0.1",
+  "title": "Datadog Log Forwarder",
+  "description": "Consumes logs from VTEX IO and forwards to Datadog",
+  "categories": [],
+  "dependencies": {},
+  "builders": {
+    "node": "6.x",
+    "docs": "0.x"
+  },
+  "settingsSchema": {
+    "title": "VTEX Datadog Log Forwarder",
+    "type": "object",
+    "properties": {
+      "region": {
+        "title": "Datadog Region",
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "com"
+            ],
+            "title": "Datadog US"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "eu"
+            ],
+            "title": "Datadog EU"
+          }
+        ]
+      },
+      "apiKey": {
+        "title": "Datadog API Key",
+        "description": "Setup a API key and paste here",
+        "type": "string"
+      }
+    }
+  },
+  "scripts": {
+    "prereleasy": "bash lint.sh"
+  },
+  "credentialType": "absolute",
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "http-intake.logs.datadoghq.com",
+        "path": "/v1/input/"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "http-intake.logs.datadoghq.eu",
+        "path": "/v1/input/"
+      }
+    },
+    {
+      "name": "read-vendor-logs"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}
